@@ -380,7 +380,7 @@ Tested 2 projects, 2 contained vulnerable paths.
 
 * Copy and paste the following to the main.yml:
 
-```aidl
+```bash
 name: "Snyk Code and Snyk Open Source Test"
 
 on:
