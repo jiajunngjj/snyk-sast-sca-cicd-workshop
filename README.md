@@ -29,12 +29,13 @@ Snyk Open Source steps
 * [Step 8 - Run a Snyk CLI Test](#step-8---run-a-snyk-cli-test)
 
 Set up GitHub Actions to run Snyk Code and Snyk Open Source
-* [Step 9 - Retrieve the Snyk API token from Snyk App](#step-6---find-vulnerabilities)
-* [Step 10 - Create the Actions workflow](#step-7---fix-using-a-pull-request)
+* [Step 9 - Retrieve the Snyk API token from Snyk App](#step-9---retrieve-the-snyk-api-token-from-snyk-app)
+* [Step 10 - Add the Snyk API token into the GitHub repository secret](#step-10---add-the-snyk-api-token-into-the-github-repository-secret)
+* [Step 11 - Create the GitHub Actions workflow](#step-11---create-the-github-actions-workflow)
 
 # Workshop Steps
 
-_NOTE: It is assumed your using a mac for these steps, but it should also work on Windows or linux with some modifications to the scripts potentially.
+_NOTE_: It is assumed your using a mac for these steps, but it should also work on Windows or linux with some modifications to the scripts potentially.
 
 ## Step 1 - Fork the highly vulnerable Juice-Shop Application
 
@@ -334,13 +335,96 @@ Tested 2 projects, 2 contained vulnerable paths.
 
 ```
 
-### 
+### Step 9 - Retrieve the Snyk API token from Snyk App
 
-Finally, to go further, feel free to look at this workshop https://github.com/papicella/snyk-open-source-workshop where additional steps are guided (Testing using the Snyk CLI and the IDE Integration with VS Code)
+* Login to http://app.snyk.io
+* Navigating to **Settings** -> **Service Accounts**
+* Create a new service account, _**ghactions**_
+* Assign the role, _**Org Admin**_
 
+![service account](https://user-images.githubusercontent.com/25560159/194320725-88f152ca-7c61-4be4-bcaf-d10585fd88c0.png)
 
+* Once created, copy the API token to clipboard.
 
-Thanks for attending and completing this workshop
+### Step 10 - Add the Snyk API token into the GitHub repository secret
+
+* Navigate to your forked juice-shop repository
+* Navigate to **Settings**
+* Click on **Secrets**
+
+![secrets](https://user-images.githubusercontent.com/25560159/194323963-2981ce05-0d14-4927-bf58-8cdaabf796b5.png)
+
+* Click on **Actions**
+* Click on **New repository secret**
+
+![secrets2](https://user-images.githubusercontent.com/25560159/194324503-cce8019a-c2c4-4493-8499-5dda853949f5.png)
+
+* Use **SNYK_TOKEN** as the name of the secret
+* Paste your Snyk API token from Step 10
+
+![secrets3](https://user-images.githubusercontent.com/25560159/194324724-1ec23f42-3ea2-4119-99bf-7284f3c42e3c.png)
+
+* Click **Add secret**
+
+### Step 11 - Create the GitHub Actions workflow
+
+* Navigate to your forked juice-shop repository
+* Navigate to **Actions**
+* Click on new workflow
+
+![github_actions](https://user-images.githubusercontent.com/25560159/194322229-5466793b-262f-4847-90b4-500e8746116f.png)
+
+* Click on _**Set up a workflow yourself**_
+
+![github_actions2](https://user-images.githubusercontent.com/25560159/194322591-3d99c787-43bc-45ca-8f52-9bc0fcd985a8.png)
+
+* Copy and paste the following to the main.yml:
+
+```aidl
+name: "Snyk Code and Snyk Open Source Test"
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  Pipeline-Job:
+    # Configure Environment
+    name: 'Snyk Test'
+    runs-on: ubuntu-latest
+    env: 
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+       
+    steps:
+    # Checkout Code
+    - name: Checkout Code
+      uses: actions/checkout@v1
+
+    # Install and Authenticate to Snyk
+    - name: Install Snyk & Authenticate
+      run: |
+         sudo npm install -g snyk
+         echo ${SNYK_TOKEN}
+         snyk auth ${SNYK_TOKEN}
+    # Run Snyk Code
+    - name: Snyk Code test
+      run: |
+         snyk code test --json 
+      continue-on-error: true
+    # Run Snyk Open Source
+    - name: Snyk Open Source test
+      run: |
+         snyk code test --json 
+      continue-on-error: true
+```
+
+* Click on **Start commit**
+* Click on **Commit new file**
+
+![actions3](https://user-images.githubusercontent.com/25560159/194326242-5b6b4eb2-2e68-418b-bbd1-7d886de1d44c.png)
+
+Congratulations, you have completed. Thanks for attending and completing this workshop
 
 ![alt tag](https://i.ibb.co/7tnp1B6/snyk-logo.png)
 
