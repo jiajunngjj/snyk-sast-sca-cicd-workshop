@@ -432,12 +432,12 @@ jobs:
     # Run Snyk Code
     - name: Snyk Code test
       run: |
-         snyk code test --json 
+         snyk code test
       continue-on-error: true
     # Run Snyk Open Source
     - name: Snyk Open Source test
       run: |
-         snyk code test --json 
+         snyk test
       continue-on-error: true
 ```
 
