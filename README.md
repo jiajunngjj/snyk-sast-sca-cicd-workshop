@@ -277,6 +277,28 @@ In addition to the Snyk App UI we also have, snyk - CLI and build-time tool to f
 
 * In order to run a Snyk CLI test we must install the npm packages so if you have npm in your path you can install them as follows
 
+Check your Node version:
+
+```shell
+$ node -v
+```
+
+_Note_: If you're using Node version v14.x or v16.x or v18.x, you can proceed to the next step (npm install), else please set up Node version 14 (Juice-Shop supported compatibility)
+
+For MacOS brew user:
+```shell
+$ brew install node@14
+$ export PATH="/usr/local/opt/node@14/bin:$PATH"
+```
+
+For Windows/Linux nvm user:
+```shell
+$ nvm install 14
+$ nvm list
+$ nvm use version-number
+```
+
+With the right Node version, run:
 ```shell
 $ npm install
 ```
