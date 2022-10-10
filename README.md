@@ -356,6 +356,9 @@ Tip: Run `snyk wizard` to address these issues.
 Tested 2 projects, 2 contained vulnerable paths.
 
 ```
+# CI/CD Steps
+
+Snyk integrates with your CI/CD pipelines to provide the ability to prevent critical vulnerabilities from going into production. Adequate security gates are essential in ensuring the appropriate quality is delivered in an automated fashion and nothing serious slips through by accident. 
 
 ### Step 9 - Retrieve the Snyk API token from Snyk App
 
