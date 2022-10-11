@@ -1,6 +1,6 @@
-# Snyk Code, Snyk Open Source and CI/CD Workshop
+# Snyk Workshop: Secure your code early with Snyk
 
-A hands-on session to see how you can implement Snyk Code and Snyk Open Source early, to easily find and fix both security issues in their own proprietary code as well as known vulnerabilities in their open source dependencies, reducing risk and accelerate the software development.
+A hands-on session to see how you can implement Snyk Code (SAST) and Snyk Open Source (SCA) early, to easily find and fix both security issues in their own proprietary code as well as known vulnerabilities in their open source dependencies, reducing risk and accelerate the software development.
 
 ## Prerequisites
 
