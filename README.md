@@ -20,18 +20,19 @@ Snyk Code steps
 
 * [Step 3 - Enable Snyk Code within Snyk App](#step-3---enable-snyk-code-within-snyk-app)
 * [Step 4 - Add project to find Snyk Code Vulnerabilities](#step-4---add-project-to-find-snyk-code-vulnerabilities)
-* [Step 5 - Run a Snyk Code CLI Test](#step-5---run-a-snyk-code-cli-test)
 
 Snyk Open Source steps
 
-* [Step 6 - Find vulnerabilities](#step-6---find-vulnerabilities)
-* [Step 7 - Fix using a Pull Request](#step-7---fix-using-a-pull-request)
-* [Step 8 - Run a Snyk CLI Test](#step-8---run-a-snyk-cli-test)
+* [Step 5 - Find vulnerabilities](#step-5---find-vulnerabilities)
+* [Step 6 - Fix using a Pull Request](#step-6---fix-using-a-pull-request)
 
-Set up GitHub Actions to run Snyk Code and Snyk Open Source
-* [Step 9 - Retrieve the Snyk API token from Snyk App](#step-9---retrieve-the-snyk-api-token-from-snyk-app)
-* [Step 10 - Add the Snyk API token into the GitHub repository secret](#step-10---add-the-snyk-api-token-into-the-github-repository-secret)
-* [Step 11 - Create the GitHub Actions workflow](#step-11---create-the-github-actions-workflow)
+Run Snyk test using CLI (Optional)
+* [Step 7 - Run Snyk test using CLI](#step-7---run-snyk-test-using-cli)
+
+Set up GitHub Actions to run Snyk Code and Snyk Open Source (Optional)
+* [Step 8 - Retrieve the Snyk API token from Snyk App](#step-8---retrieve-the-snyk-api-token-from-snyk-app)
+* [Step 9 - Add the Snyk API token into the GitHub repository secret](#step-9---add-the-snyk-api-token-into-the-github-repository-secret)
+* [Step 10 - Create the GitHub Actions workflow](#step-10---create-the-github-actions-workflow)
 
 # Workshop Steps
 
@@ -121,23 +122,102 @@ Snyk products all provide a developer-friendly experience, so Snyk Code helps de
 
 ![alt tag](https://i.ibb.co/M21xScH/Cross-site-scripting-Fix-Analysis.png)
 
-## Step 5 - Run a Snyk Code CLI Test
+# Snyk Open Source Steps
 
-In addition to the Snyk App UI we also have, snyk - CLI a build-time tool to find & fix known vulnerabilities in open-source dependencies, IaC configuration files and SAST scans on the source code files itself (Snyk Code).
+Snyk Open Source is a Software Composition Analysis took which seamlessly and proactively finds, prioritizes and fixes vulnerabilities and license violations in open source dependencies
+
+## Step 5 - Find vulnerabilities
+
+* Since Juice-Shop project had been imported in the Step 3, you should see multiple "**package.json**" projects as shown below.
+
+![snyk_open_source](https://user-images.githubusercontent.com/25560159/194291603-cd7aa623-adc6-4cb8-a66b-83c20c55cc43.png)
+
+* Click on the second "**package.json**" to view our Open Source scan results
+
+First let's explore the Juice-Shop project risks by clicking on the "**package.json**" file which is the manifest file where the open source dependencies are declared.
+
+![alt tag](https://i.ibb.co/ZhN6tXY/Package-json-view.png)
+
+Thenk go back on the Snyk WebUI and let's have a look at the vulnerabilities.
+
+For each Vulnerability, Snyk displays the following ordered by our [Proprietary Priority Score](https://docs.snyk.io/features/fixing-and-prioritizing-issues/starting-to-fix-vulnerabilities/snyk-priority-score) :
+1. The module that introduced it and, in the case of transitive dependencies, its direct dependency,
+1. Details on the path and proposed Remediation, as well as the specific vulnerable functions
+1. Overview
+1. Exploit maturity
+1. Links to CWE, CVE and CVSS Score
+1. Plus more ...
+
+![alt tag](https://i.ibb.co/xq2GWCs/Snyk-OS-vuln.png)
+
+## Step 6 - Fix using a Pull Request
+
+When using the GitHub integration, and if a fix is available, Snyk can automatically upgrade the vulnerable dependency to a non-vulnerable version through a Pull Request.
+
+* Click on "**Fix this vulnerability**" for "**Prototype Pollution**" issue as shown below
+
+![alt tag](https://i.ibb.co/9NHPmn2/Snyk-OS-Fix-this-vuln.png)
+
+* On the next screen, you'll be able to confirm the issue to fix with this PR. Click "**Open a Fix PR**"
+
+![alt tag](https://user-images.githubusercontent.com/25560159/194293540-a854d9d6-4220-465f-9d49-a97534a84b3e.png)
+![alt tag](https://i.ibb.co/p2Lx5Rd/Open-fix-pr-button.png)
+
+* Once it's ready, you'll be taken to the PR in GitHub, where you can review the changes in the file diff view:
+
+Snyk integrates with your preferred Git repository to scan your manifest files for any new code and potential vulnerabilities whenever you submit a pull request (PR), protecting the security of your code before you ever merge it with the main branch
+
+![alt tag](https://user-images.githubusercontent.com/25560159/194295151-e8204fca-d2fd-40cd-a87d-2cc9bc6ea4aa.png)
+
+* We see that CI checks completed successfully, assuring us we didn't introduce a breaking change
+
+![alt tag](https://user-images.githubusercontent.com/25560159/194295380-54dabfbd-1997-4afa-9243-1b416118f82d.png)
+
+* Optionally now, go ahead and merge the PR!
+* Back in Snyk we can appreciate that our package.json file has 1 less Critical Severity Vulnerability if you did fix it
+
+
+# Run Snyk Test Using CLI
+### Step 7 - Run Snyk test using CLI
+
+In addition to the Snyk App UI we also have, snyk - CLI and build-time tool to find & fix known vulnerabilities in open-source dependencies. The CLI is what is used in DevOps pipelines to introduce Application Security Scans as part of that workflow to push applications into production.
 
 * Before we get started please make sure you have setup the Snyk CLI. There are various install options as per the links below. Using the prebuilt binaries means you don't have to install NPM to install the Snyk CLI.
 
 1. Install Page - https://support.snyk.io/hc/en-us/articles/360003812538-Install-the-Snyk-CLI
-2. Prebuilt Binaries - https://github.com/snyk/snyk/releases
+1. Prebuilt Binaries - https://github.com/snyk/snyk/releases
 
-_Note: Please ensure you have the latest version of the Snyk CLI installed a version equal to or greater than the version below_
+* In order to run a Snyk CLI test (Snyk Open Source) we must install the npm packages so if you have npm in your path you can install them as follows
 
-```bash
-$ snyk --version
-1.801.0
+Check your Node version:
+
+```shell
+$ node -v
 ```
 
-* Authorize the Snyk CLI with your account as follows
+_Note_: If you're using Node version v14.x or v16.x or v18.x, you can proceed to the next step (npm install), else please set up Node version 14 (Juice-Shop supported compatibility)
+
+For MacOS brew user:
+```shell
+$ brew install node@14
+$ export PATH="/usr/local/opt/node@14/bin:$PATH"
+```
+
+For Windows/Linux nvm user:
+```shell
+$ nvm install 14
+$ nvm list
+$ nvm use version-number
+```
+
+With the right Node version, run:
+```shell
+$ npm install
+```
+
+_Note: If you don't have npm installed this you can skip this final step as a "snyk test" will not work without a **package-lock.json** file or the "**node_modules**" folder_
+
+* Once npm is installed, authorize the Snyk CLI with your account as follows:
 
 ```bash
 $ snyk auth
@@ -170,142 +250,7 @@ Resolving deltas: 100% (72676/72676), done.
 ```shell
 $ cd juice-shop
 ```
-
-* At this point let's go ahead and run our first "**snyk code test**" as shown below
-
-```shell
-$ snyk code test
-
-Testing /Users/jiajun/workspace/github/juice-shop ...
-
- ✗ [Low] Cleartext Transmission of Sensitive Information
-     Path: test/e2eSubfolder.js, line 7
-     Info: http (used in require) is an insecure protocol and should not be used in new code.
-
- ✗ [Low] Cleartext Transmission of Sensitive Information
-     Path: test/api/productReviewApiSpec.js, line 9
-     Info: http (used in require) is an insecure protocol and should not be used in new code.
-
-...
-
- ✗ [High] Server-Side Request Forgery (SSRF)
-     Path: routes/profileImageUrlUpload.js, line 19
-     Info: Unsanitized input from the HTTP request body flows into request.get, where it is used as an URL to perform a request. This may result in a Server-Side Request Forgery vulnerability.
-
- ✗ [High] Server-Side Request Forgery (SSRF)
-     Path: frontend/src/app/Services/configuration.service.ts, line 111
-     Info: Unsanitized input from data from a remote resource flows into get, where it is used as an URL to perform a request. This may result in a Server-Side Request Forgery vulnerability.
-
- ✗ [High] Improper Neutralization of Directives in Statically Saved Code
-     Path: routes/userProfile.js, line 46
-     Info: Unsanitized input from cookies flows into pug.compile, where it is used to construct a template that gets rendered. This may result in a Server-Side Template Injection vulnerability.
-
-
-✔ Test completed
-
-Organization:      jj.ng
-Test type:         Static code analysis
-Project path:      /Users/jiajun/workspace/github/juice-shop
-
-267 Code issues found
-28 [High]   86 [Medium]   153 [Low
-
-```
-
-# Snyk Open Source Steps
-
-Snyk Open Source is a Software Composition Analysis took which seamlessly and proactively finds, prioritizes and fixes vulnerabilities and license violations in open source dependencies
-
-## Step 6 - Find vulnerabilities
-
-* Since Juice-Shop project had been imported in the Step 3, you should see multiple "**package.json**" projects as shown below.
-
-![snyk_open_source](https://user-images.githubusercontent.com/25560159/194291603-cd7aa623-adc6-4cb8-a66b-83c20c55cc43.png)
-
-* Click on the second "**package.json**" to view our Open Source scan results
-
-First let's explore the Juice-Shop project risks by clicking on the "**package.json**" file which is the manifest file where the open source dependencies are declared.
-
-![alt tag](https://i.ibb.co/ZhN6tXY/Package-json-view.png)
-
-Thenk go back on the Snyk WebUI and let's have a look at the vulnerabilities.
-
-For each Vulnerability, Snyk displays the following ordered by our [Proprietary Priority Score](https://docs.snyk.io/features/fixing-and-prioritizing-issues/starting-to-fix-vulnerabilities/snyk-priority-score) :
-1. The module that introduced it and, in the case of transitive dependencies, its direct dependency,
-1. Details on the path and proposed Remediation, as well as the specific vulnerable functions
-1. Overview
-1. Exploit maturity
-1. Links to CWE, CVE and CVSS Score
-1. Plus more ...
-
-![alt tag](https://i.ibb.co/xq2GWCs/Snyk-OS-vuln.png)
-
-## Step 7 - Fix using a Pull Request
-
-When using the GitHub integration, and if a fix is available, Snyk can automatically upgrade the vulnerable dependency to a non-vulnerable version through a Pull Request.
-
-* Click on "**Fix this vulnerability**" for "**Prototype Pollution**" issue as shown below
-
-![alt tag](https://i.ibb.co/9NHPmn2/Snyk-OS-Fix-this-vuln.png)
-
-* On the next screen, you'll be able to confirm the issue to fix with this PR. Click "**Open a Fix PR**"
-
-![alt tag](https://user-images.githubusercontent.com/25560159/194293540-a854d9d6-4220-465f-9d49-a97534a84b3e.png)
-![alt tag](https://i.ibb.co/p2Lx5Rd/Open-fix-pr-button.png)
-
-* Once it's ready, you'll be taken to the PR in GitHub, where you can review the changes in the file diff view:
-
-Snyk integrates with your preferred Git repository to scan your manifest files for any new code and potential vulnerabilities whenever you submit a pull request (PR), protecting the security of your code before you ever merge it with the main branch
-
-![alt tag](https://user-images.githubusercontent.com/25560159/194295151-e8204fca-d2fd-40cd-a87d-2cc9bc6ea4aa.png)
-
-* We see that CI checks completed successfully, assuring us we didn't introduce a breaking change
-
-![alt tag](https://user-images.githubusercontent.com/25560159/194295380-54dabfbd-1997-4afa-9243-1b416118f82d.png)
-
-* Optionally now, go ahead and merge the PR!
-* Back in Snyk we can appreciate that our package.json file has 1 less Critical Severity Vulnerability if you did fix it
-
-### Step 8 - Run a Snyk CLI Test
-
-In addition to the Snyk App UI we also have, snyk - CLI and build-time tool to find & fix known vulnerabilities in open-source dependencies. The CLI is what is used in DevOps pipelines to introduce Application Security Scans as part of that workflow to push applications into production.
-
-* Before we get started please make sure you have setup the Snyk CLI. There are various install options as per the links below. Using the prebuilt binaries means you don't have to install NPM to install the Snyk CLI.
-
-1. Install Page - https://support.snyk.io/hc/en-us/articles/360003812538-Install-the-Snyk-CLI
-1. Prebuilt Binaries - https://github.com/snyk/snyk/releases
-
-* In order to run a Snyk CLI test we must install the npm packages so if you have npm in your path you can install them as follows
-
-Check your Node version:
-
-```shell
-$ node -v
-```
-
-_Note_: If you're using Node version v14.x or v16.x or v18.x, you can proceed to the next step (npm install), else please set up Node version 14 (Juice-Shop supported compatibility)
-
-For MacOS brew user:
-```shell
-$ brew install node@14
-$ export PATH="/usr/local/opt/node@14/bin:$PATH"
-```
-
-For Windows/Linux nvm user:
-```shell
-$ nvm install 14
-$ nvm list
-$ nvm use version-number
-```
-
-With the right Node version, run:
-```shell
-$ npm install
-```
-
-_Note: If you don't have npm installed this you can skip this final step as a "snyk test" will not work without a **package-lock.json** file or the "**node_modules**" folder_
-
-* Once npm is installed run a Snyk CLI test as follows
+* Run Snyk Open Source test using CLI:
 
 ```shell
 ❯ snyk test --all-projects
@@ -356,11 +301,53 @@ Tip: Run `snyk wizard` to address these issues.
 Tested 2 projects, 2 contained vulnerable paths.
 
 ```
-# CI/CD Steps
+
+* * Run Snyk Code test using CLI:
+
+```shell
+$ snyk code test
+
+Testing /Users/jiajun/workspace/github/juice-shop ...
+
+ ✗ [Low] Cleartext Transmission of Sensitive Information
+     Path: test/e2eSubfolder.js, line 7
+     Info: http (used in require) is an insecure protocol and should not be used in new code.
+
+ ✗ [Low] Cleartext Transmission of Sensitive Information
+     Path: test/api/productReviewApiSpec.js, line 9
+     Info: http (used in require) is an insecure protocol and should not be used in new code.
+
+...
+
+ ✗ [High] Server-Side Request Forgery (SSRF)
+     Path: routes/profileImageUrlUpload.js, line 19
+     Info: Unsanitized input from the HTTP request body flows into request.get, where it is used as an URL to perform a request. This may result in a Server-Side Request Forgery vulnerability.
+
+ ✗ [High] Server-Side Request Forgery (SSRF)
+     Path: frontend/src/app/Services/configuration.service.ts, line 111
+     Info: Unsanitized input from data from a remote resource flows into get, where it is used as an URL to perform a request. This may result in a Server-Side Request Forgery vulnerability.
+
+ ✗ [High] Improper Neutralization of Directives in Statically Saved Code
+     Path: routes/userProfile.js, line 46
+     Info: Unsanitized input from cookies flows into pug.compile, where it is used to construct a template that gets rendered. This may result in a Server-Side Template Injection vulnerability.
+
+
+✔ Test completed
+
+Organization:      jj.ng
+Test type:         Static code analysis
+Project path:      /Users/jiajun/workspace/github/juice-shop
+
+267 Code issues found
+28 [High]   86 [Medium]   153 [Low
+
+```
+
+# CI/CD Steps (Optional)
 
 Snyk integrates with your CI/CD pipelines to provide the ability to prevent critical vulnerabilities from going into production. Adequate security gates are essential in ensuring the appropriate quality is delivered in an automated fashion and nothing serious slips through by accident. 
 
-### Step 9 - Retrieve the Snyk API token from Snyk App
+### Step 8 - Retrieve the Snyk API token from Snyk App
 
 * Login to http://app.snyk.io
 * Navigating to **Settings** -> **Service Accounts**
@@ -371,7 +358,7 @@ Snyk integrates with your CI/CD pipelines to provide the ability to prevent crit
 
 * Once created, copy the API token to clipboard.
 
-### Step 10 - Add the Snyk API token into the GitHub repository secret
+### Step 9 - Add the Snyk API token into the GitHub repository secret
 
 * Navigate to your forked juice-shop repository
 * Navigate to **Settings**
@@ -391,7 +378,7 @@ Snyk integrates with your CI/CD pipelines to provide the ability to prevent crit
 
 * Click **Add secret**
 
-### Step 11 - Create the GitHub Actions workflow
+### Step 10 - Create the GitHub Actions workflow
 
 * Navigate to your forked juice-shop repository
 * Navigate to **Actions**
