@@ -26,7 +26,7 @@ Snyk Open Source steps
 * [Step 5 - Find vulnerabilities](#step-5---find-vulnerabilities)
 * [Step 6 - Fix using a Pull Request](#step-6---fix-using-a-pull-request)
 
-Run Snyk test using CLI (Optional)
+Snyk CLI (Optional)
 * [Step 7 - Run Snyk test using CLI](#step-7---run-snyk-test-using-cli)
 
 Set up GitHub Actions to run Snyk Code and Snyk Open Source (Optional)
@@ -58,9 +58,9 @@ _NOTE: You may have already setup GitHub integration in that case go ahead and s
 
 First we need to connect Snyk to GitHub so we can import our Repository. Do so by following these steps below:
 
-* Login to http://app.snyk.io Sign up if you haven't already.
+* Login to http://app.snyk.io, sign up if you haven't already.
 * Navigating to **Integrations** -> **Source Control** -> **GitHub**
-* Fill in your Account Credentials to Connect your GitHub Account.
+* Fill in your Account Credentials to connect your GitHub Account.
 
 ![integration workshop](https://user-images.githubusercontent.com/25560159/194023826-1cb8242f-0bc3-4776-8fd3-9b99cb723b87.png)
 
@@ -177,7 +177,7 @@ Snyk integrates with your preferred Git repository to scan your manifest files f
 * Back in Snyk we can appreciate that our package.json file has 1 less Critical Severity Vulnerability if you did fix it
 
 
-# Run Snyk Test Using CLI
+# Snyk CLI (Optional)
 ### Step 7 - Run Snyk test using CLI
 
 In addition to the Snyk App UI we also have, snyk - CLI and build-time tool to find & fix known vulnerabilities in open-source dependencies. The CLI is what is used in DevOps pipelines to introduce Application Security Scans as part of that workflow to push applications into production.
