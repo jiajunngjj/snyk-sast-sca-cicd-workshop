@@ -178,7 +178,7 @@ Snyk integrates with your preferred Git repository to scan your manifest files f
 
 
 # Snyk CLI (Optional)
-### Step 7 - Run Snyk test using CLI
+### Step 7 - Run Snyk test using CLI (Optional)
 
 In addition to the Snyk App UI we also have, snyk - CLI and build-time tool to find & fix known vulnerabilities in open-source dependencies. The CLI is what is used in DevOps pipelines to introduce Application Security Scans as part of that workflow to push applications into production.
 
@@ -347,7 +347,7 @@ Project path:      /Users/jiajun/workspace/github/juice-shop
 
 Snyk integrates with your CI/CD pipelines to provide the ability to prevent critical vulnerabilities from going into production. Adequate security gates are essential in ensuring the appropriate quality is delivered in an automated fashion and nothing serious slips through by accident. 
 
-### Step 8 - Retrieve the Snyk API token from Snyk App
+### Step 8 - Retrieve the Snyk API token from Snyk App (Optional)
 
 * Login to http://app.snyk.io
 * Navigating to **Settings** -> **Service Accounts**
@@ -358,7 +358,7 @@ Snyk integrates with your CI/CD pipelines to provide the ability to prevent crit
 
 * Once created, copy the API token to clipboard.
 
-### Step 9 - Add the Snyk API token into the GitHub repository secret
+### Step 9 - Add the Snyk API token into the GitHub repository secret (Optional)
 
 * Navigate to your forked juice-shop repository
 * Navigate to **Settings**
@@ -378,7 +378,7 @@ Snyk integrates with your CI/CD pipelines to provide the ability to prevent crit
 
 * Click **Add secret**
 
-### Step 10 - Create the GitHub Actions workflow
+### Step 10 - Create the GitHub Actions workflow (Optional)
 
 * Navigate to your forked juice-shop repository
 * Navigate to **Actions**
@@ -441,6 +441,8 @@ Congratulations, you have completed. Thanks for attending and completing this wo
 ![alt tag](https://i.ibb.co/7tnp1B6/snyk-logo.png)
 
 <hr />
+<br/>
+<br/>
 JJ [jj.ng at snyk.io] is a Solution Engineer at Snyk APJ 
 <br/>
 
