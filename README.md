@@ -138,7 +138,7 @@ First let's explore the Juice-Shop project risks by clicking on the "**package.j
 
 ![alt tag](https://i.ibb.co/ZhN6tXY/Package-json-view.png)
 
-Thenk go back on the Snyk WebUI and let's have a look at the vulnerabilities.
+Then go back on the Snyk WebUI and let's have a look at the vulnerabilities.
 
 For each Vulnerability, Snyk displays the following ordered by our [Proprietary Priority Score](https://docs.snyk.io/features/fixing-and-prioritizing-issues/starting-to-fix-vulnerabilities/snyk-priority-score) :
 1. The module that introduced it and, in the case of transitive dependencies, its direct dependency,
